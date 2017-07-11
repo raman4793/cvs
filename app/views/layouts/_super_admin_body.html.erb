@@ -1,0 +1,11 @@
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+  <%= render 'shared/navbar' %>
+  <div style="padding-top: 60px"></div>
+  <% flash.each do |key,msg| %>
+      <%= content_tag :div, msg, id: key %>
+  <% end %>
+
+  <%= yield %>
+</div>
+</body>

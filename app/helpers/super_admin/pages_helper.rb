@@ -1,0 +1,2 @@
+module SuperAdmin::PagesHelper
+end

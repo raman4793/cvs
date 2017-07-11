@@ -1,0 +1,36 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <% if businesses %>
+          <table class="table">
+            <thead>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Admin</th>
+            <th>Approve</th>
+            </thead>
+            <tbody>
+            <% businesses.each do |business| %>
+                <tr>
+                  <td><%= business.id %></td>
+                  <td><%= business.name %></td>
+                  <td><%= business.admin.email %></td>
+                  <td>
+                    <%= form_for business, url: super_admins_business_path(business), remote: true do |f| %>
+                        <%= f.check_box :approved %>
+                    <% end %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+
+      <% end %>
+    </div>
+  </div>
+</div>
+<script>
+      $('.edit_business input[type=checkbox]').click(function () {
+          $(this).parent('form').submit();
+      });
+</script>

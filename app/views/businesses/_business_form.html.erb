@@ -1,0 +1,19 @@
+<%= form_for business do |f| %>
+    <div class="">
+      <%= f.label :name %>
+      <%= f.text_field :name, class: 'form-control' %>
+    </div>
+
+    <div class="">
+      <%= f.label :name %>
+      <%= f.collection_select :type_id, Type.all, :id, :name, options = {}, html_options = {class: 'form-control'} %>
+    </div>
+
+    <%= f.hidden_field :admin_id, value: current_admin.id %>
+
+    <br>
+
+    <div class="">
+      <%= f.submit class: 'btn btn-primary' %>
+    </div>
+<% end %>

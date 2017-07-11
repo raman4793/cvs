@@ -1,0 +1,2 @@
+module SuperAdmins::BusinessesHelper
+end

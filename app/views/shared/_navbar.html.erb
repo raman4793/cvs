@@ -1,0 +1,5 @@
+<% if current_super_admin %>
+    <%= render 'shared/super_admin_navbar' %>
+<% elsif current_admin %>
+    <%= render 'shared/admin_navbar' %>
+<% end %>
