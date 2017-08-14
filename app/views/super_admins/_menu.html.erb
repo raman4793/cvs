@@ -1,0 +1,54 @@
+<ul class="sidebar-menu">
+
+  <li class="header">MAIN NAVIGATION</li>
+
+  <li class="treeview">
+    <a href="">
+      <i class="fa fa-dashboard"></i> <span>Plans</span>
+      <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+    </a>
+    <ul class="treeview-menu">
+      <li><a href=<%= plans_url %>><i class="fa fa-circle-o"></i>Plans</a></li>
+      <li><a href=<%= new_plan_path %>><i class="fa fa-circle-o"></i>New Plan</a></li>
+    </ul>
+  </li>
+
+  <li class="treeview">
+    <a href="">
+      <i class="fa fa-files-o"></i> <span>Business Types</span>
+      <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+    </a>
+    <ul class="treeview-menu">
+      <li><a href=<%= types_url %>><i class="fa fa-circle-o"></i>Types</a></li>
+      <li><a href=<%= new_type_path %>><i class="fa fa-circle-o"></i>New Type</a></li>
+    </ul>
+  </li>
+
+  <li>
+    <a href=<%= super_admins_businesses_path %>>
+      <i class="fa fa-th"></i> <span>Businesses</span>
+      <!--<span class="pull-right-container">-->
+              <!--<small class="label pull-right bg-green">new</small>-->
+            <!--</span>-->
+    </a>
+  </li>
+
+  <li class="treeview">
+    <a href="">
+      <i class="fa fa-dashboard"></i> <span>Transcribers</span>
+      <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+    </a>
+    <ul class="treeview-menu">
+      <li><a href=<%= transcribers_path %>><i class="fa fa-circle-o"></i>Transcibers</a></li>
+      <li><a href=<%= new_transcriber_path %>><i class="fa fa-circle-o"></i>New Transcriber</a></li>
+    </ul>
+  </li>
+
+
+</ul>

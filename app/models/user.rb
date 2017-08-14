@@ -5,6 +5,38 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  has_many :uploads
+  has_many :jobs
+  belongs_to :business
+
+  has_many :conversations, as: :sendable, dependent: :destroy
+  has_many :conversations, as: :recipientable, dependent: :destroy
+  has_many :messages, as: :sendable, dependent: :destroy
+
+  after_create do
+    a = self.business.admin
+    Conversation.create(sendable: a, recipientable: self)
+  end
+
+
+
+
+  #this method is called by devise to check for "active" state of the model
+  def active_for_authentication?
+    #remember to call the super
+    #then put our own check to determine "active" state using
+    #our own "is_active" column
+    super and self.business.approved?
+  end
+
+  def no_of_files_uploaded(period)
+    self.uploads.where("created_at BETWEEN ? AND ?", period[:period_start], period[:period_end]).count
+  end
+
+  def no_of_lines(period)
+    self.jobs.where("created_at BETWEEN ? AND ?", period[:period_start], period[:period_end]).sum(:nol)
+  end
+
 #   def key
 #     encrypted_key
 #   end
@@ -64,5 +96,83 @@ class User < ApplicationRecord
 #     puts "decrypted: #{decrypted}\n"
 #     decrypted
 #   end
+
+  def can_upload?
+    period = self.business.current_period
+    current_files_count = no_of_files_uploaded(period)
+    current_line_count = no_of_lines(period)
+
+    if current_files_count < self.business.plan.number_of_files and current_line_count <  self.business.plan.number_of_lines
+      true
+    else
+      false
+    end
+  end
+
+  def usage_left
+    period = self.business.current_period
+    nof = no_of_files_uploaded(period)
+    nol = no_of_lines(period)
+    plan = self.business.plan
+    nof = plan.number_of_files-nof
+    nol = plan.number_of_lines-nol
+    {nol: nol, nof: nof}
+  end
+
+  def current_period_files
+    period = self.business.current_period
+    from = period[:from]
+    to = period[:to]
+    self.uploads.where('created_at BETWEEN ? AND ?', from, to)
+  end
+
+  def current_period_files_count
+    period = self.business.current_period
+    from = period[:from]
+    to = period[:to]
+    self.uploads.where('created_at BETWEEN ? AND ?', from, to).count
+  end
+
+  def with_in_limit?
+    current_period_files_count < self.business.plan.number_of_files
+  end
+
+  def send_message(to, msg)
+    conversation = Conversation.where({sendable: self, recipientable: to}).first
+    if conversation.nil?
+      conversation = Conversation.where({sendable: to, recipientable: self}).first
+    end
+    if conversation.nil?
+      conversation = Conversation.create({sendable: self, recipientable: to})
+    end
+    conversation.messages.create(content: msg, sendable: self)
+  end
+
+  def get_messages(from)
+    conversation = Conversation.where({sendable: self, recipientable: from}).first
+    if conversation.nil?
+      conversation = Conversation.where({sendable: from, recipientable: self}).first
+    end
+    if conversation.nil?
+      nil
+    else
+      conversation.messages
+    end
+  end
+
+  def self.get_conversation(from, to)
+    conversation = Conversation.where({sendable: from, recipientable: to}).first
+    if conversation.nil?
+      conversation = Conversation.where({sendable: to, recipientable: from}).first
+    end
+  end
+
+  def get_conversations
+    sent = Conversation.where({sendable: self})
+    recieved = Conversation.where({recipientable: self})
+    conversations = sent.or(recieved)
+  end
+
+  private
 
 end

@@ -1,0 +1,47 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-8">
+
+
+      <div class="container-fluid">
+        <div class="row">
+            <% @plans.each do |plan| %>
+
+                <div class="col-md-3" style="border:1px solid black; margin: 5px">
+                  <div class="panel" style="background: #222D32; color: wheat">
+                    <div class="panel-heading">
+                      <h1 align="center"><%= plan.name %></h1>
+                    </div>
+                    <div class="panel-body" style="margin-left: auto;margin-right: auto;">
+                      <div style="">
+
+                        <div class="font-size-24"><h2 align="center"><small>$</small><%= plan.amount %></h2></div>
+                        <div class="font-size-11 font-weight-semibold text-muted"><p align="center">PER DAY</p></div>
+
+                      </div>
+                      <p align="center">Number of Users : <%= plan.number_of_users %></p>
+                      <p align="center">Number of Files : <%= plan.number_of_files %></p>
+                      <p align="center">Size of files : <%= plan.size_of_files %></p>
+
+                    </div>
+                    <div class="panel-footer" style="margin-left: auto;margin-right: auto;width: 8em;background: #222D32; color: wheat">
+                      <%= form_tag(new_business_path, {method: :get, plan: plan}) do %>
+                          <input name="plan_id" type="hidden" value="<%= plan.id %>"></input>
+                          <%= submit_tag 'Start Trail', class: 'btn btn-primary btn-flat' %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+            <% end %>
+        </div>
+      </div>
+
+
+
+    </div>
+
+
+    <div class="col-md-1"></div>
+  </div>
+</div>

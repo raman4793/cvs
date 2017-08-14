@@ -2,8 +2,15 @@ class DeviseCreateAdmins < ActiveRecord::Migration[5.0]
   def change
     create_table :admins do |t|
       ## Database authenticatable
+      t.string :name
+      t.string :uname
       t.string :email,              null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
+      t.string :img
+
+
+      ##Enable/disable
+      t.boolean :is_active,         default: true
 
       ## Recoverable
       t.string   :reset_password_token
@@ -30,7 +37,7 @@ class DeviseCreateAdmins < ActiveRecord::Migration[5.0]
       # t.string   :unlock_token # Only if unlock strategy is :email or :both
       # t.datetime :locked_at
 
-      t.string :img
+
 
       t.timestamps null: false
     end

@@ -1,1 +1,27 @@
-this is the admin dash
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <table class="table table-bordered">
+        <thead>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Uploads</th>
+        </thead>
+
+        <tbody>
+          <% @users.each do |user| %>
+            <tr>
+              <td><%= link_to user.id, user_path(user) %></td>
+              <td><%= user.name %></td>
+              <td><%= user.email %></td>
+              <td><%= user.uploads.count %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+</div>

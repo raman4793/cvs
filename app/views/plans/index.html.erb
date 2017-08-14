@@ -1,0 +1,26 @@
+<% provide(page_title: 'Business Types') %>
+<table class="table">
+  <thead>
+  <th>ID</th>
+  <th>Name</th>
+  <th>Amount</th>
+  <th>Duration</th>
+  <th>Number of Lines</th>
+  <th>Size of files</th>
+  <th colspan="2">Actions</th>
+  </thead>
+  <tbody>
+  <% @plans.each do |plan| %>
+      <tr>
+        <td><%= plan.id %></td>
+        <td><%= plan.name %></td>
+        <td><%= plan.amount %></td>
+        <td><%= plan.period %></td>
+        <td><%= plan.number_of_lines %></td>
+        <td><%= plan.size_of_files %></td>
+        <td><%= link_to 'Edit', edit_plan_path(plan) %></td>
+        <td><%= link_to 'Delete', plan_path(plan), method: :delete %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

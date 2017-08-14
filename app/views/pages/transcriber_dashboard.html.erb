@@ -1,0 +1,14 @@
+<table class="table table-striped">
+  <thead>
+    <th>ID</th>
+    <th>File</th>
+  </thead>
+  <tbody>
+  <% @jobs.each do |job| %>
+    <tr>
+      <td><%= link_to job.id, show_transcriber_job_path(job) %></td>
+      <td><%= audio_tag(job.upload.file_name, autoplay: false, controls: true)  %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

@@ -16,15 +16,19 @@ class PagesController < ApplicationController
   def help
   end
 
+  def transcriber_dashboard
+    @jobs = current_transcriber.get_jobs
+  end
+
   def super_admin_dashboard
     @businesses = Business.where(:approved => false)
   end
 
   def admin_dashboard
-
+    @users = current_admin.business.users
   end
 
   def home
-
+    @user = current_user
   end
 end

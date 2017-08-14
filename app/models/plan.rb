@@ -1,4 +1,7 @@
 class Plan < ApplicationRecord
+
+  has_many :businesses
+
   def days
     duration
   end

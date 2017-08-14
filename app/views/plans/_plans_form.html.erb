@@ -1,0 +1,25 @@
+<%= form_for plan do |f| %>
+    <div>
+      <%= f.label :name %>
+      <%= f.text_field :name, class: 'form-control' %>
+    </div>
+    <div>
+      <%= f.label :amount %>
+      <%= f.number_field :amount, class: 'form-control' %>
+    </div>
+    <div>
+      <%= f.label :period, 'Duration of the plan in months' %>
+      <%= f.number_field :period, class: 'form-control' %>
+    </div>
+    <div>
+      <%= f.label :number_of_lines, 'Number of lines that can be transcribed' %>
+      <%= f.number_field :number_of_lines, class: 'form-control' %>
+    </div>
+    <div>
+      <%= f.label :size_of_files, 'Size of files that can be uploaded' %>
+      <%= f.number_field :size_of_files, class: 'form-control' %>
+    </div><br>
+    <div>
+      <%= f.submit class: 'btn btn-primary' %>
+    </div>
+<% end %>

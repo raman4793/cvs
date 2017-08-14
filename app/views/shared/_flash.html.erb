@@ -1,0 +1,12 @@
+<% flash.each do |key,msg| %>
+    <% if key.to_s.eql?('alert') %>
+        <% type = 'danger' %>
+    <% elsif key.to_s.eql?('notice') %>
+        <% type = 'success' %>
+    <% elsif key.to_s.eql?('error') %>
+        <% type = 'danger' %>
+    <% else %>
+        <% type = key.to_s %>
+    <% end %>
+    <%= content_tag :div, "#{msg}", id: key, class: "alert alert-#{type} alert-dismissible" %>
+<% end %>

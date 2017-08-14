@@ -1,0 +1,38 @@
+<div class="box">
+  <div class="box-header">
+    <h3 class="box-title">Invoices</h3>
+  </div>
+  <div class="box-body">
+    <table class="table table-bordered table-striped" id="invoices-table">
+      <thead>
+      <th>ID</th>
+      <th>Discount</th>
+      <th>Status</th>
+      <th>Amount</th>
+      <th>Peiod</th>
+      </thead>
+
+      <tbody>
+      <% @invoices.each do |i| %>
+          <tr>
+            <td><%= i.id %></td>
+            <td><%= i.discount %></td>
+            <td><%= i.paid %></td>
+            <td><%= i.subtotal %></td>
+            <td><%= i.period_start %> to <%= i.period_end %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+    <script>
+        $('#invoices-table').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false
+        });
+    </script>
+  </div>
+</div>

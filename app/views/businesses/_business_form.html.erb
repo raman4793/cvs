@@ -1,19 +1,77 @@
-<%= form_for business do |f| %>
-    <div class="">
-      <%= f.label :name %>
-      <%= f.text_field :name, class: 'form-control' %>
-    </div>
+<div >
+  <div id="stripe_error">
+    <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+  </div>
 
-    <div class="">
-      <%= f.label :name %>
-      <%= f.collection_select :type_id, Type.all, :id, :name, options = {}, html_options = {class: 'form-control'} %>
-    </div>
+  <%= form_for business do |f| %>
+      <%= render 'shared/errors', object: business %>
+      <div class="">
+        <%= f.label :name %>
+        <%= f.text_field :name, class: 'form-control' %>
+      </div>
 
-    <%= f.hidden_field :admin_id, value: current_admin.id %>
+      <div class="">
+        <%= f.label :type %>
+        <%= f.collection_select :type_id, Type.all, :id, :name, options = {}, html_options = {class: 'form-control'} %>
+      </div>
+      <% if params[:plan_id]!=nil %>
+          <div class="">
+            <%= f.hidden_field :plan_id, value: params[:plan_id] %>
+          </div>
+      <% else %>
+          <%= f.label :plan %>
+          <%= f.collection_select :plan_id, Plan.all, :id, :name, options = {}, html_options = {class: 'form-control'} %>
+      <% end %>
+      <div class="">
+        <%= f.hidden_field :stripe_card_token %>
+      </div>
+      <div>
+        <%= f.fields_for :admin, Admin.new do |a| %>
+            <div class="field">
+              <%= a.label :email %><br />
+              <%= a.email_field :email, class: 'form-control' %>
+            </div>
 
-    <br>
+            <div class="field">
+              <%= a.label :password %>
+              <% if @minimum_password_length %>
+                  <em>(<%= @minimum_password_length %> characters minimum)</em>
+              <% end %><br />
+              <%= a.password_field :password, autocomplete: "off", class: 'form-control' %>
+            </div>
 
-    <div class="">
-      <%= f.submit class: 'btn btn-primary' %>
-    </div>
-<% end %>
+            <div class="field">
+              <%= a.label :password_confirmation %><br />
+              <%= a.password_field :password_confirmation, autocomplete: "off", class: 'form-control' %>
+            </div>
+        <% end %>
+      </div>
+
+      <% if business.stripe_card_token.present? %>
+          Credit card has been provided.
+      <% else %>
+          <div class="field">
+            <%= label_tag :card_number, "Credit Card Number" %>
+            <%= text_field_tag :card_number, nil, name: nil, class: 'form-control' %>
+          </div>
+          <div class="field">
+            <%= label_tag :card_code, "Security Code on Card (CVV)" %>
+            <%= text_field_tag :card_code, nil, name: nil, class: 'form-control' %>
+          </div>
+          <div class="field">
+            <%= label_tag :card_month, "Card Expiration" %>
+            <%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month", class: 'form-control'} %>
+            <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year", class: 'form-control'} %>
+          </div>
+      <% end %>
+
+      <br>
+
+      <div class="">
+        <%= f.submit class: 'btn btn-primary' %>
+      </div>
+  <% end %>
+
+
+
+</div>

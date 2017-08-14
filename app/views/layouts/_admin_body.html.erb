@@ -1,11 +1,56 @@
-<body class="fixed">
-<div class="wrapper">
+<body class="fixed skin-blue">
+<div class="wrapper" style="background: white">
   <%= render 'shared/navbar' %>
   <div style="padding-top: 60px"></div>
-  <% flash.each do |key,msg| %>
-      <%= content_tag :div, msg, id: key %>
-  <% end %>
+  <%= render 'shared/flash' %>
 
-  <%= yield %>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2">
+        <%= render 'admins/profile' %>
+      </div>
+      <div class="col-md-8">
+        <%= yield %>
+        <div class="row" style="position: fixed;bottom: 0;">
+          <div class="col-md-12">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+
+
+
+
+            <div class="box box-solid">
+              <div class="box-header with-border">
+                <h3 class="box-title">Conversations</h3>
+
+                <div class="box-tools">
+                </div>
+              </div>
+              <div class="box-body no-padding">
+                <ul class="nav nav-pills nav-stacked">
+                  <% current_admin.get_conversations.each do |convo| %>
+                      <% user = get_user %>
+                      <% if convo.sendable==user %>
+                          <% other = convo.recipientable %>
+                      <% else %>
+                          <% other = convo.sendable %>
+                      <% end %>
+                      <li><a href="<%= conversation_path(convo) %>" data-remote="true"><%= image_tag 'dist/img/avatar.png', class: 'img-circle', height: '32', width: '32' %> <%= other.name %> <span class="label label-warning pull-right"></span></a>
+                      </li>
+                  <% end %>
+                </ul>
+              </div>
+              <!-- /.box-body -->
+            </div>
+
+
+
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- /.box -->
 </body>

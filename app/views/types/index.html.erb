@@ -1,0 +1,18 @@
+<% provide(page_title: 'Business Types') %>
+<table class="table">
+  <thead>
+  <th>ID</th>
+  <th>Name</th>
+  <th colspan="2">Actions</th>
+  </thead>
+  <tbody>
+  <% @types.each do |type| %>
+      <tr>
+        <td><%= type.id %></td>
+        <td><%= type.name %></td>
+        <td><%= link_to 'Edit', edit_type_path(type) %></td>
+        <td><%= link_to 'Delete', type_path(type), method: :delete %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

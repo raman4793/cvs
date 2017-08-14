@@ -2,4 +2,10 @@
     <%= render 'shared/super_admin_navbar' %>
 <% elsif current_admin %>
     <%= render 'shared/admin_navbar' %>
+<% elsif current_user %>
+    <%= render 'shared/user_navbar' %>
+<% elsif current_transcriber %>
+    <%= render 'shared/transcriber_navbar' %>
+<% else %>
+    <%= render 'shared/default_navbar' %>
 <% end %>

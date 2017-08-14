@@ -1,11 +1,12 @@
-<body class="fixed">
-<div class="wrapper">
+<body class="fixed skin-blue">
+<div class="test">
   <%= render 'shared/navbar' %>
   <div style="padding-top: 60px"></div>
-  <% flash.each do |key,msg| %>
-      <%= content_tag :div, msg, id: key %>
-  <% end %>
 
-  <%= yield %>
+  <section class="">
+    <%= render 'shared/flash' %>
+
+    <%= yield %>
+  </section>
 </div>
 </body>

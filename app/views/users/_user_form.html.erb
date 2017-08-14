@@ -1,4 +1,18 @@
 <%= form_for user, url: admins_users_path, method: :post do |f| %>
+
+    <% if user.errors.any? %>
+        <div id="error_explanation">
+          <div class="alert alert-danger">
+            The form contains <%= pluralize(user.errors.count, "error") %>.
+          </div>
+          <ul>
+            <% user.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
     <div>
       <%= f.label :name %>
       <%= f.text_field :name, class: 'form-control' %>
@@ -12,7 +26,12 @@
       <%= f.text_field :uname, class: 'form-control' %>
     </div>
     <div>
-      <%= f.hidden_field :business_id %>
+      <%= f.label :password %>
+      <%= f.password_field :password, value: '123456', class: 'form-control' %>
+    </div>
+    <div>
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation, value: '123456', class: 'form-control' %>
     </div>
     <br>
     <div>

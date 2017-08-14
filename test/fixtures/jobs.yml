@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  upload: one
+  status: MyString
+  draft: MyText
+  file_name: MyString
+  user: one
+  nol: 
+
+two:
+  upload: two
+  status: MyString
+  draft: MyText
+  file_name: MyString
+  user: two
+  nol: 

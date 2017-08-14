@@ -1,0 +1,4 @@
+$('#messages-box').html('');
+$('#messages-box').html('<%= j render 'conversations/convo', conversation: @conversation %>');
+
+$('#chat-row').append('<%= j render 'conversations/convo', conversation: @conversation %>');

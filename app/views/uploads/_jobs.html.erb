@@ -1,0 +1,12 @@
+<table class="table table-bordered">
+  <thead></thead>
+  <tbody>
+    <% jobs.each do |job| %>
+      <tr>
+        <td><%= job.id %></td>
+        <td><%= job.status %></td>
+        <td><%= job.get_file %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

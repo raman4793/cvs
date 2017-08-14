@@ -1,5 +1,11 @@
+require 'sidekiq/web'
 Rails.application.routes.draw do
 
+  get 'businesses/invoices'
+  get 'jobs/show'
+
+  devise_for :transcribers
+  resources :transcribers
   devise_for :users, controllers: {
       registrations: 'users/registrations'
   }
@@ -11,9 +17,16 @@ Rails.application.routes.draw do
       registrations: 'super_admins/registrations'
   }
 
+  resources :types
+  resources :plans
+
 
   authenticated :super_admin do
     root to: 'pages#super_admin_dashboard'
+  end
+
+  authenticated :transcriber do
+    root to: 'pages#transcriber_dashboard'
   end
 
   authenticated :admin do
@@ -33,10 +46,17 @@ Rails.application.routes.draw do
   end
 
   namespace :super_admins do
-    resources :businesses, only: [:update]
+    resources :businesses, only: [:update, :index]
   end
 
   resources :businesses
+  resources :admins
+  resources :uploads
+  resources :users, only:[:show, :update]
+
+
+
+  get '/pricing', to: 'businesses#pricing'
 
   get 'pages/contact'
 
@@ -44,5 +64,15 @@ Rails.application.routes.draw do
 
   get 'pages/help'
 
+  resources :payments
+  mount Sidekiq::Web => '/sidekiq'
+
+  get 'transcribers/job/(:id)', to: 'transcribers#job',as: :show_transcriber_job
+
+  match 'jobs/(:id)', to: 'transcribers#update_job', via: :patch
+
+  resources :jobs
+  resources :conversations
+  resources :messages
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

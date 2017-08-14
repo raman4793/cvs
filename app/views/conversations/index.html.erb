@@ -1,0 +1,58 @@
+<section class="content-header">
+  <h1>
+    Mailbox
+  </h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-md-3">
+
+
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">Conversations</h3>
+
+          <div class="box-tools">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="box-body no-padding">
+          <ul class="nav nav-pills nav-stacked">
+            <% @conversations.each do |convo| %>
+                <% user = get_user %>
+                <% if convo.sendable==user %>
+                  <% other = convo.recipientable %>
+                <% else %>
+                    <% other = convo.sendable %>
+                <% end %>
+                <li><a href="<%= conversation_path(convo) %>" data-remote="true"><%= image_tag 'dist/img/avatar.png', class: 'img-circle', height: '32', width: '32' %> <%= other.name %> <span class="label label-warning pull-right">65</span></a>
+                </li>
+            <% end %>
+          </ul>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /. box -->
+
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-9">
+      <!-- /. box -->
+
+
+      <div id="messages-box">
+        <%= render 'conversations/convo', conversation: @conversations.first %>
+      </div>
+
+
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>
+<!-- /.content -->
+</div>

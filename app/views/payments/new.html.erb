@@ -1,0 +1,14 @@
+<%= form_tag payments_path do -%>
+    <article>
+      <%= label_tag 'amount', 'To Pay', class: 'amount' %>
+      <%= label_tag 'amount', "$100.00", class: 'amount-figure' %>
+    </article>
+
+
+    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="<%= Rails.application.secrets.stripe_publishable_key %>"
+            data-description="Pay"
+            data-amount="1200">
+    </script>
+
+<% end %>

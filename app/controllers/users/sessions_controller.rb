@@ -7,9 +7,14 @@ class Users::SessionsController < Devise::SessionsController
   # end
 
   # POST /resource/sign_in
-  # def create
-  #   super
-  # end
+  def create
+    super
+    if current_user.sign_in_count==1
+      redirect_to edit_user_registration_path, notice: 'We highly recomend you change your password before continuing'
+    else
+
+    end
+  end
 
   # DELETE /resource/sign_out
   # def destroy
