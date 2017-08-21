@@ -26,6 +26,7 @@ class PagesController < ApplicationController
 
   def admin_dashboard
     @users = current_admin.business.users
+    @jobs = Job.where(user_id: @users.pluck(:id))
   end
 
   def home

@@ -2,18 +2,24 @@ require 'openssl'
 class Business < ApplicationRecord
   belongs_to :type
   belongs_to :admin
-  has_many :users
+  has_many :users, dependent: :destroy
   belongs_to :plan
-  has_many :transcribers
+  has_many :transcribers, dependent: :destroy
 
   accepts_nested_attributes_for :admin
 
   attr_accessor :stripe_card_token
 
+  has_many :events, as: :eventable, dependent: :destroy
+
   before_create do
     keychars=("ai".."z").to_a + ("A".."Z").to_a + (0..9).to_a
     k=OpenSSL::Digest::SHA256.new.digest(keychars.sample(8).join(",").gsub(",",""))
     self.key=k
+  end
+
+  after_create do
+    Event.create(initiatable: admin, eventable: self, message: 'business created')
   end
 
   def save_with_plan

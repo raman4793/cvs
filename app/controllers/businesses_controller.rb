@@ -1,5 +1,8 @@
 class BusinessesController < ApplicationController
   before_action :authenticate_admin!, only: [:invoices]
+  def show
+    
+  end
   def new
     @business = Business.new
   end

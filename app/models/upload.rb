@@ -2,9 +2,21 @@ require 'fog'
 class Upload < ApplicationRecord
   belongs_to :user
   mount_uploader :file_name, FileUploaderUploader
-  has_one :job
+  has_one :job, dependent: :destroy
 
   validate :limit
+
+  validate :total_size
+
+  def total_size
+    u = self.user
+    plan = u.business.plan
+    total_size = plan.size_of_files
+    current_usage = u.usage
+    if current_usage > total_size
+      errors.add(:id, 'Your cloud storage limit is up')
+    end
+  end
 
   def limit
     if self.user.can_upload?

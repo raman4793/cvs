@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170814045929) do
+ActiveRecord::Schema.define(version: 20170815060546) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,16 @@ ActiveRecord::Schema.define(version: 20170814045929) do
     t.datetime "updated_at",         null: false
   end
 
+  create_table "events", force: :cascade do |t|
+    t.string   "message"
+    t.integer  "eventable_id"
+    t.string   "eventable_type"
+    t.integer  "initiatable_id"
+    t.string   "initiatable_type"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
   create_table "jobs", force: :cascade do |t|
     t.integer  "upload_id"
     t.string   "status"
@@ -76,6 +86,16 @@ ActiveRecord::Schema.define(version: 20170814045929) do
     t.bigint   "file_size"
     t.index ["upload_id"], name: "index_jobs_on_upload_id", using: :btree
     t.index ["user_id"], name: "index_jobs_on_user_id", using: :btree
+  end
+
+  create_table "logs", force: :cascade do |t|
+    t.string   "ip_address"
+    t.string   "controller"
+    t.string   "action"
+    t.integer  "initiatable_id"
+    t.string   "initiatable_type"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "messages", force: :cascade do |t|

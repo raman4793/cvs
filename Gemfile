@@ -55,11 +55,16 @@ gem 'jquery-datatables-rails'
 gem 'private_pub'
 gem 'thin'
 
+gem 'chartkick'
+gem 'highcharts-rails'
 
+gem 'hightop'
+gem 'groupdate'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  gem 'seed_dump'
 end
 
 group :development do

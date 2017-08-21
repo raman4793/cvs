@@ -13,38 +13,41 @@
         <%= yield %>
         <div class="row" style="position: fixed;bottom: 0;">
           <div class="col-md-12">
+            <div id="chat-row" class="chat pull-right"></div>
           </div>
         </div>
       </div>
       <div class="col-md-2">
 
+        <div class="">
 
+          <h3>Conversation</h3>
+          <div class="box box-solid">
+            <div class="box-header with-border">
 
-
-            <div class="box box-solid">
-              <div class="box-header with-border">
-                <h3 class="box-title">Conversations</h3>
-
-                <div class="box-tools">
-                </div>
+              <div class="box-tools">
               </div>
-              <div class="box-body no-padding">
-                <ul class="nav nav-pills nav-stacked">
-                  <% current_admin.get_conversations.each do |convo| %>
-                      <% user = get_user %>
-                      <% if convo.sendable==user %>
-                          <% other = convo.recipientable %>
-                      <% else %>
-                          <% other = convo.sendable %>
-                      <% end %>
-                      <li><a href="<%= conversation_path(convo) %>" data-remote="true"><%= image_tag 'dist/img/avatar.png', class: 'img-circle', height: '32', width: '32' %> <%= other.name %> <span class="label label-warning pull-right"></span></a>
-                      </li>
-                  <% end %>
-                </ul>
-              </div>
-              <!-- /.box-body -->
             </div>
+            <div class="box-body no-padding">
+              <ul class="nav nav-pills nav-stacked">
+                <% current_admin.get_conversations.each do |convo| %>
+                    <% user = get_user %>
+                    <% if convo.sendable==user %>
+                        <% other = convo.recipientable %>
+                    <% else %>
+                        <% other = convo.sendable %>
+                    <% end %>
+                    <li><a href="<%= conversation_path(convo) %>" data-remote="true"><%= image_tag 'dist/img/avatar.png', class: 'img-circle', height: '32', width: '32' %> <%= other.name %> <span class="label label-warning pull-right"></span></a>
+                    </li>
+                <% end %>
+              </ul>
+            </div>
+            <!-- /.box-body -->
+          </div>
 
+
+
+        </div>
 
 
       </div>

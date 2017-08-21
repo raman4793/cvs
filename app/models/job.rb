@@ -3,11 +3,13 @@ class Job < ApplicationRecord
   belongs_to :upload
   belongs_to :user
 
+  has_many :events, as: :eventable, dependent: :destroy
+
   mount_uploader :file_name, TranscriptedFilesUploader
 
   before_save do
     size = self.upload.file_name.file.size
-    size+=self.file_name.file.size
+    size+=self.file_name.file.size if self.file_name.file
     self.file_size=size
     if self.status==Job.statuses[:finished]
       data = draft
@@ -20,6 +22,26 @@ class Job < ApplicationRecord
         self.file_name = f
       end
     end
+  end
+
+  def day
+    created_at.to_date.to_s
+  end
+
+  after_create do
+    Event.create(initiatable: current_user, eventable: self, message: 'submitted job')
+  end
+
+  after_update do
+    if status==statuses[:finished]
+      if current_transcriber
+        Event.create(initiatable: current_transcriber, eventable: self, message: 'finished job')
+      end
+    end
+  end
+
+  def get_event_text
+
   end
 
   # after_save do

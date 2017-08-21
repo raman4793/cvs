@@ -5,7 +5,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :uploads
+  has_many :uploads, dependent: :destroy
   has_many :jobs
   belongs_to :business
 
@@ -13,9 +13,17 @@ class User < ApplicationRecord
   has_many :conversations, as: :recipientable, dependent: :destroy
   has_many :messages, as: :sendable, dependent: :destroy
 
+  has_many :events, as: :eventable, dependent: :destroy
+  has_many :events, as: :initiatable, dependent: :destroy
+
+  def eventable
+    Event.where(eventable: self)
+  end
+
   after_create do
     a = self.business.admin
     Conversation.create(sendable: a, recipientable: self)
+    Event.create(initiatable: current_admin, eventable: self, message: 'created user')
   end
 
 
@@ -107,6 +115,17 @@ class User < ApplicationRecord
     else
       false
     end
+  end
+
+  def usage
+    self.jobs.sum(&:file_size)
+  end
+
+  def get_usage_percent
+    plan = business.plan
+    total_size = plan.size_of_files
+    current_size = jobs.sum(&:file_size)
+    ((current_size/(1024*1024))/(total_size).to_f)*100
   end
 
   def usage_left

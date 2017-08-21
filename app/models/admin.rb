@@ -4,15 +4,21 @@ class Admin < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_one :business
+  has_one :business, dependent: :destroy
 
   has_many :conversations, as: :sendable, dependent: :destroy
   has_many :conversations, as: :recipientable, dependent: :destroy
   has_many :messages, as: :sendable, dependent: :destroy
 
+  has_many :events, as: :initiatable, dependent: :destroy
+
   after_create do
     sa = SuperAdmin.first
     Conversation.create(sendable: sa, recipientable: self)
+  end
+
+  def users
+    business.users
   end
 
 
@@ -83,5 +89,22 @@ class Admin < ApplicationRecord
     conversations = sent.or(recieved)
   end
 
+  def usage
+    jobs = Job.find_by_sql("SELECT * FROM Jobs WHERE user_id IN (SELECT id FROM Users WHERE business_id = #{business.id});")
+    current_size = jobs.sum(&:file_size)
+  end
+
+  def total_size
+    plan = business.plan
+    plan.number_of_users * plan.size_of_files
+  end
+
+  def get_usage_percent
+    plan = business.plan
+    total_size = plan.number_of_users * plan.size_of_files
+    jobs = Job.find_by_sql("SELECT * FROM Jobs WHERE user_id IN (SELECT id FROM Users WHERE business_id = #{business.id});")
+    current_size = jobs.sum(&:file_size)
+    ((current_size/(1024*1024))/(total_size).to_f)*100
+  end
 
 end

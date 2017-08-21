@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
     elsif current_transcriber
       current_transcriber
     else
-      nil
+      Anonymous.new
     end
   end
 end

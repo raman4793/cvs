@@ -11,6 +11,8 @@ class Transcriber < ApplicationRecord
 
   has_many :messages, as: :sendable, dependent: :destroy
 
+  has_many :events, as: :initiatable, dependent: :destroy
+
   after_create do
     a = self.business.admin
     Conversation.create(sendable: a, recipientable: self)
