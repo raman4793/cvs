@@ -1,4 +1,4 @@
-<%= form_for user, url: admins_users_path, method: :post do |f| %>
+<%= form_for user, url: admins_users_path, method: :post, validate: true do |f| %>
 
     <% if user.errors.any? %>
         <div id="error_explanation">

@@ -1,6 +1,12 @@
 class JobsController < ApplicationController
   def show
     @job = Job.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.json { render @job }
+      format.js
+    end
+
   end
   def update
     @job = Job.find(params[:id])

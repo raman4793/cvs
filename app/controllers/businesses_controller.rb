@@ -10,8 +10,7 @@ class BusinessesController < ApplicationController
   def create
     # @admin = Admin.new(admin_params[:admins])
     @business = Business.new(business_params)
-    if @business.save
-
+    if @business.save_with_plan
       redirect_to root_url, notice: 'You request has been registered, Wait for the admin to approve your business'
     else
       puts(@business.errors.full_messages)

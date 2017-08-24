@@ -2,9 +2,9 @@
   <!-- Logo -->
   <a href="<%= root_url %>" class="logo">
     <!-- mini logo for sidebar mini 50x50 pixels -->
-    <span class="logo-mini"><b>A</b>LT</span>
+    <span class="logo-mini"><b>C</b>VS</span>
     <!-- logo for regular state and mobile devices -->
-    <span class="logo-lg"><b>Admin</b>LTE</span>
+    <span class="logo-lg"><b>Cloud</b>VS</span>
   </a>
   <!-- Header Navbar: style can be found in header.less -->
   <nav class="navbar navbar-static-top">
@@ -14,18 +14,19 @@
     <div class="navbar-custom-menu">
       <ul class="nav navbar-nav">
         <li><%= link_to 'Messages', conversations_path %></li>
-        <li><%= link_to 'New Job', new_upload_path %></li>
-        <li><%= link_to 'My Job', uploads_path %></li>
+        <li><a id="modal-306058" href="#modal-container-306058" role="button" class="btn" data-toggle="modal">New Job</a></li>
+        <li><a id="modal-306059" href="#modal-container-306059" role="button" class="btn" data-toggle="modal">My Jobs</a></li>
+        <li><a id="modal-306050" href="#modal-container-306050" role="button" class="btn" data-toggle="modal">Record</a></li>
         <!-- User Account: style can be found in dropdown.less -->
         <li class="dropdown user user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <img src=<%= image_path("dist/img/user2-160x160.jpg") %> class="user-image" alt="User Image">
-            <span class="hidden-xs">Alexander Pierce</span>
+            <img src=<%= image_path(current_user.img) %> class="user-image" alt="User Image">
+            <span class="hidden-xs"><%= current_user.name %></span>
           </a>
           <ul class="dropdown-menu">
             <!-- User image -->
             <li class="user-header">
-              <img src=<%= image_path("dist/img/user2-160x160.jpg") %> class="img-circle" alt="User Image">
+              <img src=<%= image_path(current_user.img) %> class="img-circle" alt="User Image">
 
               <p>
                 <%= current_user.name %>
@@ -50,3 +51,141 @@
     </div>
   </nav>
 </header>
+
+<!--new job-->
+<div class="modal fade" id="modal-container-306058" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          ×
+        </button>
+        <h4 class="modal-title" id="myModalLabel">
+          New Job
+        </h4>
+      </div>
+      <div class="modal-body">
+        <%= render 'uploads/form', upload: current_user.uploads.build %>
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!--my job-->
+<div class="modal fade" id="modal-container-306059" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          ×
+        </button>
+        <h4 class="modal-title" id="myModalLabel">
+          My Jobs
+        </h4>
+      </div>
+      <div class="modal-body">
+        <%= render 'uploads/jobs', jobs: current_user.jobs %>
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!--Live Recording-->
+<div class="modal fade" id="modal-container-306050" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+
+
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          ×
+        </button>
+        <h4 class="modal-title" id="myModalLabel">
+          Record Audio
+        </h4>
+      </div>
+      <div class="modal-body">
+
+
+        <div>
+          <h2>Audio record and playback</h2>
+          <p>
+            <button id=startRecord class="btn btn-flat btn-primary">start</button>
+            <button id=stopRecord disabled class="btn btn-flat btn-danger">stop</button>
+          </p>
+          <p>
+            <audio id=recordedAudio></audio>
+            <a id=audioDownload></a>
+          </p>
+        </div>
+
+
+
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          Close
+        </button>
+
+        <script type="application/javascript">
+
+            navigator.mediaDevices.getUserMedia({audio:true})
+                .then(stream => {
+                rec = new MediaRecorder(stream);
+            rec.ondataavailable = e => {
+                audioChunks.push(e.data);
+                if (rec.state == "inactive"){
+                    let blob = new Blob(audioChunks,{type:'audio/x-mpeg-3'});
+                    recordedAudio.src = URL.createObjectURL(blob);
+                    recordedAudio.controls=true;
+                    recordedAudio.autoplay=true;
+                    audioDownload.href = recordedAudio.src;
+                    audioDownload.download = 'mp3';
+                    audioDownload.innerHTML = 'download';
+                }
+            }
+            })
+            .catch(e=>console.log(e));
+
+            startRecord.onclick = e => {
+                startRecord.disabled = true;
+                stopRecord.disabled=false;
+                audioChunks = [];
+                rec.start();
+            }
+            stopRecord.onclick = e => {
+                startRecord.disabled = false;
+                stopRecord.disabled=true;
+                rec.stop();
+            }
+
+
+        </script>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

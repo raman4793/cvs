@@ -1,2 +1,10 @@
-<h1>Jobs#show</h1>
-<p>Find me in app/views/jobs/show.html.erb</p>
+<div class="box">
+  <div class="box-header">
+    <h2 class="">
+      Job #<%= job.id %>
+    </h2>
+  </div>
+  <div class="box-body">
+    <%= job.get_file %>
+  </div>
+</div>

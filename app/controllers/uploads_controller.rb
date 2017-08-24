@@ -30,7 +30,7 @@ class UploadsController < ApplicationController
     respond_to do |format|
       if @upload.save
         TranscriberWorker.perform_async(@upload.id)
-        format.html { redirect_to @upload, notice: 'Upload was successfully created.' }
+        format.html { redirect_to root_url, notice: 'Upload was successfully created.' }
         format.json { render :show, status: :created, location: @upload }
       else
         format.html { render :new }

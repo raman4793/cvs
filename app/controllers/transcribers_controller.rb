@@ -21,6 +21,11 @@ class TranscribersController < ApplicationController
 
   def job
     @job = Job.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.json { render @job }
+      format.js
+    end
   end
 
   def update_job

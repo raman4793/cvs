@@ -4,14 +4,17 @@ Rails.application.routes.draw do
   get 'businesses/invoices'
   get 'jobs/show'
 
-  devise_for :transcribers
+  devise_for :transcribers, controllers: {
+      registrations: 'transcribers/registrations'
+  }
   resources :transcribers
   devise_for :users, controllers: {
       registrations: 'users/registrations'
   }
 
   devise_for :admins, controllers: {
-      registrations: 'admins/registrations'
+      registrations: 'admins/registrations',
+      sessions: 'admins/sessions'
   }
   devise_for :super_admins, controllers: {
       registrations: 'super_admins/registrations'
@@ -40,6 +43,8 @@ Rails.application.routes.draw do
   unauthenticated do
     root to: 'pages#index'
   end
+
+  root to: 'pages#index'
 
   namespace :admins do
     resources :users, only: [:new, :create]

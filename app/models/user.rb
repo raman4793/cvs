@@ -16,6 +16,22 @@ class User < ApplicationRecord
   has_many :events, as: :eventable, dependent: :destroy
   has_many :events, as: :initiatable, dependent: :destroy
 
+  mount_uploader :img, SuperAdminUploaderUploader
+
+  validates :name, presence: true
+  validates :email, presence: true
+  validates :password, presence: true
+  validate :password_confirm
+
+
+  def password_confirm
+    if password==password_confirmation
+      true
+    else
+      errors.add(:password_confirmation, 'Password do not match')
+    end
+  end
+
   def eventable
     Event.where(eventable: self)
   end
@@ -129,7 +145,7 @@ class User < ApplicationRecord
   end
 
   def usage_left
-    period = self.business.current_period
+    period = {period_start: self.created_at, period_end: Time.now.utc}
     nof = no_of_files_uploaded(period)
     nol = no_of_lines(period)
     plan = self.business.plan

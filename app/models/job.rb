@@ -7,20 +7,23 @@ class Job < ApplicationRecord
 
   mount_uploader :file_name, TranscriptedFilesUploader
 
+  def business
+    user.business
+  end
+
   before_save do
-    size = self.upload.file_name.file.size
-    size+=self.file_name.file.size if self.file_name.file
-    self.file_size=size
+    # size = self.upload.file_name.file.size
+    # size+=self.file_name.file.size if self.file_name.file
+    # self.file_size=size
     if self.status==Job.statuses[:finished]
       data = draft
+      puts"Draft = #{data}"
       fname = "tmp/uploads/job_#{id}.txt"
       file = File.open(fname, 'wb') { |file| file.write(data) }
       puts("File created #{fname}")
+      sleep(5)
       file = get_business.encrypt(fname)
-
-      File.open("tmp/uploads/job_#{id}.txt") do |f|
-        self.file_name = f
-      end
+      self.file_name = Rails.root.join(fname).open
     end
   end
 
@@ -29,13 +32,13 @@ class Job < ApplicationRecord
   end
 
   after_create do
-    Event.create(initiatable: current_user, eventable: self, message: 'submitted job')
+    Event.create(initiatable: self.upload.user, eventable: self, message: 'submitted job')
   end
 
   after_update do
-    if status==statuses[:finished]
-      if current_transcriber
-        Event.create(initiatable: current_transcriber, eventable: self, message: 'finished job')
+    if status==Job.statuses[:finished] && file_name.nil?
+      if self.upload.user.business.transcribers.first
+        Event.create(initiatable: self.upload.user.business.transcribers.first, eventable: self, message: 'finished job')
       end
     end
   end
@@ -66,7 +69,7 @@ class Job < ApplicationRecord
     elsif self.status==(Job.statuses[:drafting])
       'Your request is being being double checked'
     elsif self.status==(Job.statuses[:finished])
-      get_data
+      self.draft
     elsif self.status==(Job.statuses[:error])
       'There is some error our techies are looking into it'
     end

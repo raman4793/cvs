@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170815060546) do
+ActiveRecord::Schema.define(version: 20170824021054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,8 +36,19 @@ ActiveRecord::Schema.define(version: 20170815060546) do
     t.string   "unconfirmed_email"
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
+    t.text     "about"
     t.index ["email"], name: "index_admins_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
+  end
+
+  create_table "bills", force: :cascade do |t|
+    t.string   "token"
+    t.integer  "business_id"
+    t.float    "amount"
+    t.string   "status"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["business_id"], name: "index_bills_on_business_id", using: :btree
   end
 
   create_table "businesses", force: :cascade do |t|
@@ -50,6 +61,7 @@ ActiveRecord::Schema.define(version: 20170815060546) do
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.binary   "key"
+    t.string   "location"
     t.index ["admin_id"], name: "index_businesses_on_admin_id", using: :btree
     t.index ["plan_id"], name: "index_businesses_on_plan_id", using: :btree
     t.index ["type_id"], name: "index_businesses_on_type_id", using: :btree
@@ -144,6 +156,7 @@ ActiveRecord::Schema.define(version: 20170815060546) do
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.string   "name"
+    t.text     "about"
     t.index ["email"], name: "index_super_admins_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_super_admins_on_reset_password_token", unique: true, using: :btree
   end
@@ -164,6 +177,7 @@ ActiveRecord::Schema.define(version: 20170815060546) do
     t.string   "img"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.text     "about"
     t.index ["business_id"], name: "index_transcribers_on_business_id", using: :btree
     t.index ["email"], name: "index_transcribers_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_transcribers_on_reset_password_token", unique: true, using: :btree
@@ -201,11 +215,14 @@ ActiveRecord::Schema.define(version: 20170815060546) do
     t.integer  "business_id"
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
+    t.string   "img"
+    t.text     "about"
     t.index ["business_id"], name: "index_users_on_business_id", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "bills", "businesses"
   add_foreign_key "businesses", "admins"
   add_foreign_key "businesses", "plans"
   add_foreign_key "businesses", "types"

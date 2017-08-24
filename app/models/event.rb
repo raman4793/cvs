@@ -6,7 +6,7 @@ class Event < ApplicationRecord
     if user.class.name == 'Admin'
       get_admin_events(user)
     elsif user.class.name == 'User'
-      user.events
+      Event.where(initiatable: user).or(Event.where(initiatable: Transcriber.find_by(business: user.business)))
     elsif user.class.name == 'Transcriber'
       user.events
     end

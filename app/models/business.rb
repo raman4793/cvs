@@ -6,11 +6,17 @@ class Business < ApplicationRecord
   belongs_to :plan
   has_many :transcribers, dependent: :destroy
 
-  accepts_nested_attributes_for :admin
+  accepts_nested_attributes_for :admin, reject_if: :admin_invalid
 
   attr_accessor :stripe_card_token
 
   has_many :events, as: :eventable, dependent: :destroy
+
+  validates :name, presence: true
+  validates :type_id, presence: true
+
+  def admin_invalid
+  end
 
   before_create do
     keychars=("ai".."z").to_a + ("A".."Z").to_a + (0..9).to_a

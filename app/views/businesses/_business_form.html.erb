@@ -1,9 +1,10 @@
 <div >
+  <h1>New Business</h1>
   <div id="stripe_error">
     <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
   </div>
 
-  <%= form_for business do |f| %>
+  <%= form_for business, validate: true do |f| %>
       <%= render 'shared/errors', object: business %>
       <div class="">
         <%= f.label :name %>
@@ -72,6 +73,16 @@
       </div>
   <% end %>
 
-
+<script type="application/javascript">
+    $('#new_business').validate();
+    window.clientSideValidations.validators.local['email'] = function(element, options) {
+        // Your validator code goes in here
+        if (!/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i.test(element.val())) {
+            // When the value fails to pass validation you need to return the error message.
+            // It can be derived from validator.message
+            return options.message;
+        }
+    }
+</script>
 
 </div>

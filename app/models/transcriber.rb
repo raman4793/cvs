@@ -13,6 +13,8 @@ class Transcriber < ApplicationRecord
 
   has_many :events, as: :initiatable, dependent: :destroy
 
+  mount_uploader :img, SuperAdminUploaderUploader
+
   after_create do
     a = self.business.admin
     Conversation.create(sendable: a, recipientable: self)

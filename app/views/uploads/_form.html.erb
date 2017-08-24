@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-4"></div>
     <div class="col-md-4">
-      <%= form_for(upload, multipart: true) do |f| %>
+      <%= form_for(upload, multipart: true, validate: true) do |f| %>
           <% if upload.errors.any? %>
               <div id="error_explanation">
                 <h2><%= pluralize(upload.errors.count, "error") %> prohibited this upload from being saved:</h2>
@@ -16,7 +16,7 @@
           <% end %>
 
           <div class="field">
-            <%= f.file_field :file_name %>
+            <%= f.file_field :file_name, class: 'btn btn-danger btn-flat' %>
           </div>
           <br>
           <div class="actions">

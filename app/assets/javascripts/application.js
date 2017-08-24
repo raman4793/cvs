@@ -5,6 +5,9 @@
 //= require bootstrap
 //= require highcharts
 //= require chartkick
+//= require recorder
+//= require recorder_new
+//= require Fr.voice
 //= require_tree .
 
 

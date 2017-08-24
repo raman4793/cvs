@@ -12,6 +12,10 @@ class Admin < ApplicationRecord
 
   has_many :events, as: :initiatable, dependent: :destroy
 
+  validates :email, presence: true
+  validates :email, uniqueness: true
+  validates :password_confirmation, presence: true
+
   after_create do
     sa = SuperAdmin.first
     Conversation.create(sendable: sa, recipientable: self)

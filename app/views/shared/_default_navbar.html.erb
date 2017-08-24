@@ -16,15 +16,46 @@
         <li>
           <%= link_to 'Pricing', pricing_path %>
         </li>
-        <li>
-          <%= link_to 'Admin Login', new_admin_session_path %>
+
+        <li class="dropdown messages-menu">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-sign-in"></i> Login
+            <span class="label label-success"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <!-- inner menu: contains the actual data -->
+              <ul class="menu">
+                <li><!-- start message -->
+                  <a href="<%= new_admin_session_path %>">
+                    <h4>
+                      Admin Login
+                    </h4>
+                  </a>
+                </li>
+                <!-- end message -->
+                <li><!-- start message -->
+                  <a href="<%= new_user_session_path %>">
+                    <h4>
+                      User Login
+                    </h4>
+                  </a>
+                </li>
+                <!-- end message -->
+                <li><!-- start message -->
+                  <a href="<%= new_transcriber_session_path %>">
+                    <h4>
+                      Transcriber Login
+                    </h4>
+                  </a>
+                </li>
+                <!-- end message -->
+
+              </ul>
+            </li>
+          </ul>
         </li>
-        <li>
-          <%= link_to 'User Login', new_user_session_path %>
-        </li>
-        <li>
-          <%= link_to 'Super Admin Login', new_super_admin_session_path %>
-        </li>
+
       </ul>
     </div>
   </nav>

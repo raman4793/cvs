@@ -14,4 +14,8 @@ class ApplicationController < ActionController::Base
       Anonymous.new
     end
   end
+
+  def after_sign_in_path_for(resource)
+    root_url
+  end
 end

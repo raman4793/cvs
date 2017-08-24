@@ -37,7 +37,7 @@
                     <% else %>
                         <% other = convo.sendable %>
                     <% end %>
-                    <li><a href="<%= conversation_path(convo) %>" data-remote="true"><%= image_tag 'dist/img/avatar.png', class: 'img-circle', height: '32', width: '32' %> <%= other.name %> <span class="label label-warning pull-right"></span></a>
+                    <li><a href="<%= conversation_path(convo) %>" data-remote="true"><%= image_tag other.img, class: 'img-circle', height: '32', width: '32' %> <%= other.name %> <span class="label label-warning pull-right"></span></a>
                     </li>
                 <% end %>
               </ul>

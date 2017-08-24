@@ -1,0 +1,6 @@
+<%= audio_tag(job.upload.file_name, autoplay: false, controls: true)  %>
+<%= form_for(job, multipart: true) do |f| %>
+    <%= f.text_area :draft, value: job.draft, class: 'form-control' %>
+    <%= f.select(:status, choice: ['Finished', 'Error', 'Drafting']) %><br>
+    <%= f.submit class: 'btn btn-primary btn-block btn-flat' %>
+<% end %>

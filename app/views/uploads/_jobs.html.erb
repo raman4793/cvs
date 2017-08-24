@@ -1,5 +1,9 @@
-<table class="table table-bordered">
-  <thead></thead>
+<table class="table table-bordered" id="job-table">
+  <thead>
+    <th>ID</th>
+    <th>Status</th>
+    <th>Text</th>
+  </thead>
   <tbody>
     <% jobs.each do |job| %>
       <tr>
@@ -10,3 +14,7 @@
     <% end %>
   </tbody>
 </table>
+
+<script>
+  $('#job-table').DataTable();
+</script>

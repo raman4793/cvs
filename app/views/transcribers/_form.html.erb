@@ -1,39 +1,50 @@
-<%= form_for transcriber, :controller => 'TranscribersController', :action => 'create' do |f| %>
-    <% if transcriber.errors.any? %>
-        <div id="error_explanation">
-          <div class="alert alert-danger">
-            The form contains <%= pluralize(transcriber.errors.count, "error") %>.
-          </div>
-          <ul>
-            <% transcriber.errors.full_messages.each do |msg| %>
-                <li><%= msg %></li>
-            <% end %>
-          </ul>
-        </div>
-    <% end %>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-danger">
+        <div class="box-header"><h2>New Transcriber</h2></div>
+        <div class="box-body">
+          <%= form_for transcriber, :controller => 'TranscribersController', :action => 'create' do |f| %>
+              <% if transcriber.errors.any? %>
+                  <div id="error_explanation">
+                    <div class="alert alert-danger">
+                      The form contains <%= pluralize(transcriber.errors.count, "error") %>.
+                    </div>
+                    <ul>
+                      <% transcriber.errors.full_messages.each do |msg| %>
+                          <li><%= msg %></li>
+                      <% end %>
+                    </ul>
+                  </div>
+              <% end %>
 
-    <div>
-      <%= f.label :name %>
-      <%= f.text_field :name, class: 'form-control' %>
+              <div>
+                <%= f.label :name %>
+                <%= f.text_field :name, class: 'form-control' %>
+              </div>
+              <div>
+                <%= f.label :email %>
+                <%= f.email_field :email, class: 'form-control' %>
+              </div>
+              <div>
+                <%= f.label :business %>
+                <%= f.collection_select :business_id, Business.all, :id, :name, options = {}, html_options = {class: 'form-control'} %>
+              </div>
+              <div>
+                <%= f.label :password %>
+                <%= f.password_field :password, value: '123456', class: 'form-control' %>
+              </div>
+              <div>
+                <%= f.label :password_confirmation %><br>
+                <%= f.password_field :password_confirmation, value: '123456', class: 'form-control' %>
+              </div>
+              <br>
+              <div>
+                <%= f.submit class: 'btn btn-primary' %>
+              </div>
+          <% end %>
+        </div>
+      </div>
     </div>
-    <div>
-      <%= f.label :email %>
-      <%= f.email_field :email, class: 'form-control' %>
-    </div>
-    <div>
-      <%= f.label :business %>
-      <%= f.collection_select :business_id, Business.all, :id, :name, options = {}, html_options = {class: 'form-control'} %>
-    </div>
-    <div>
-      <%= f.label :password %>
-      <%= f.password_field :password, value: '123456', class: 'form-control' %>
-    </div>
-    <div>
-      <%= f.label :password_confirmation %><br>
-      <%= f.password_field :password_confirmation, value: '123456', class: 'form-control' %>
-    </div>
-    <br>
-    <div>
-      <%= f.submit class: 'btn btn-primary' %>
-    </div>
-<% end %>
+  </div>
+</div>
