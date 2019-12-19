@@ -10,7 +10,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.0]
 
       ## Recoverable
       t.string   :reset_password_token
-      t.datetimrae :reset_password_sent_at
+      t.datetime :reset_password_sent_at
 
       ##Enable/disable
       t.boolean :is_active,         default: true
