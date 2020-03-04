@@ -296,7 +296,7 @@ GEM
     private_pub (1.0.3)
       faye
     public_suffix (2.0.5)
-    puma (3.9.1)
+    puma (3.12.4)
     rack (2.0.3)
     rack-protection (1.5.3)
       rack
@@ -417,7 +417,7 @@ DEPENDENCIES
   openssl
   pg (~> 0.18)
   private_pub
-  puma (~> 3.0)
+  puma (~> 3.12)
   rails (~> 5.0.4)
   rmagick
   sass-rails (~> 5.0)
